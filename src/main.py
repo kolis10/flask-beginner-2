@@ -7,7 +7,7 @@ from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
-from models import db
+from models import db, Jobs
 #from models import Person
 
 app = Flask(__name__)
@@ -27,6 +27,30 @@ def handle_invalid_usage(error):
 @app.route('/')
 def sitemap():
     return generate_sitemap(app)
+
+
+@app.route('/ex_1', methods=['POST'])
+def handle_ex_1():
+
+    json = request.get_json()
+
+    db.session.add(Jobs(
+        job_name = json['name'],
+        job_place = json['place'],
+        job_pay = json['pay']
+    ))
+    db.session.commit()
+    return jsonify(json)
+
+@app.route('/ex_2', methods=['GET'])
+def handle_ex_2():
+
+    employ = Jobs.query.get(5)
+    employ_dict = employ.serialize()
+    
+    return jsonify(employ_dict)
+
+
 
 @app.route('/got_it', methods=['POST', 'GET'])
 def handle_got_it():
