@@ -28,6 +28,21 @@ def handle_invalid_usage(error):
 def sitemap():
     return generate_sitemap(app)
 
+@app.route('/got_it', methods=['POST', 'GET'])
+def handle_got_it():
+
+    return 'got it'
+
+@app.route('/all_odd', methods=['POST', 'GET'])
+def handle_all_odd():
+    i = 0
+    all_odds = []
+    while i < 20:
+        i += 1
+        if i %2 != 0:
+            all_odds.append(i)
+    return jsonify(all_odds)
+
 @app.route('/hello', methods=['POST', 'GET'])
 def handle_hello():
 
